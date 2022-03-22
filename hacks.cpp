@@ -79,17 +79,9 @@ void tryHook()
 
 void applyBytes(hacks::DataEntry& entry)
 {
-    if (entry.m_applyMode == ApplyMode::ApplyOn) {
-        std::cout << "Toggling " << entry.m_name << " on..." << std::endl;
-        entry.m_applyMode = ApplyMode::ApplyOff;
-    } else {
-        std::cout << "Toggling " << entry.m_name << " hack off..." << std::endl;
-        entry.m_applyMode = ApplyMode::ApplyOn;
-    }
-
-    const std::vector<u8>& data = entry.m_applyMode == ApplyMode::ApplyOn ? entry.m_onData : entry.m_offData;
-    const u32 addr = gHandler.GetModuleBase(entry.m_libraryName.data()) + entry.m_addr;
-    const u32 old = gHandler.Protect(addr, data.size(), PAGE_EXECUTE_READWRITE);
+    std::vector<u8> data = entry.m_applyMode == ApplyMode::ApplyOn ? entry.m_onData : entry.m_offData;
+    u32 addr = gHandler.GetModuleBase(entry.m_libraryName.data()) + entry.m_addr;
+    u32 old = gHandler.Protect(addr, data.size(), PAGE_EXECUTE_READWRITE);
 
     if (!gHandler.Write(addr, data.data(), data.size())) {
         std::cout << "Unable to write hack to GD client!" << std::endl;
@@ -97,5 +89,13 @@ void applyBytes(hacks::DataEntry& entry)
     }
 
     gHandler.Protect(addr, data.size(), old);
+
+    if (entry.m_applyMode == ApplyMode::ApplyOn) {
+        std::cout << "Toggling " << entry.m_name << " on..." << std::endl;
+        entry.m_applyMode = ApplyMode::ApplyOff;
+    } else {
+        std::cout << "Toggling " << entry.m_name << " hack off..." << std::endl;
+        entry.m_applyMode = ApplyMode::ApplyOn;
+    }
 }
 }
