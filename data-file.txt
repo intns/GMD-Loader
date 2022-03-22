@@ -3,3 +3,8 @@ libcocos2d.dll
 0xA5424
 90 90 90 90 90
 F3 0F 10 45 08
+Noclip
+
+0x20A23C
+E9 79 06 00 00
+6A 14 8B CB FF

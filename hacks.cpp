@@ -23,7 +23,9 @@ bool DataFile::read(const std::string& fileName)
 
         // Second line is the library
         std::getline(openFile, line);
-        entry.m_libraryName = line;
+        if (!line.empty()) {
+            entry.m_libraryName = line;
+        }
 
         // Third line is the address
         std::getline(openFile, line);
