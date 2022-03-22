@@ -1,0 +1,5 @@
+No Transition
+libcocos2d.dll
+0xA5424
+90 90 90 90 90
+F3 0F 10 45 08
